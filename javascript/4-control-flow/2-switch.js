@@ -1,3 +1,6 @@
+// Switch case
+// Role of current user
+// role is Guest, Moderator or User
 let role = "guest";
 
 switch (role) {
@@ -13,6 +16,7 @@ switch (role) {
     console.log("Unknow User");
 }
 
-if (role === "guest") console.log("Guest");
+// If else
+if (role === "guest") console.log("Guest User");
 else if (role === "moderator") console.log("moderator user");
 else console.log("Unknown User");

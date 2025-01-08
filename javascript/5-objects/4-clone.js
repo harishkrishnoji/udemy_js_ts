@@ -1,3 +1,5 @@
+// copy object to another object
+
 const circle = {
   radius: 1,
   draw: function () {
@@ -12,3 +14,8 @@ const circle = {
 const another = { ...circle };
 
 console.log(another);
+
+
+//========================================================
+// Garbage collection
+// memory allocation and deallocation are done automatically

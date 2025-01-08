@@ -1,3 +1,6 @@
+Javascript was designed to run on Browser
+JavaScript Engine on browser runs JavaScript code
+
 ## commands
 
 ```

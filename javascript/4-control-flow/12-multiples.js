@@ -1,6 +1,9 @@
 
 console.log(sum(10));
 
+// Multiples of 3: 3, 6, 9
+// Multiples of 5: 5, 10
+
 function sum(limit) {
   let sum = 0;
 
