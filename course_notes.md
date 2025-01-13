@@ -125,7 +125,21 @@ Node is C/C++ program, includes googles v8 engine
 - Object-oriented Programming (OOP)
 - Javascript reference guide - https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
-## Section 5: Arrays
+## Section 6: Arrays
+- Array elements
+- Arrow functions
+- Array elements built in fuctions
+    - join / pop / jump / shift / splice / push
+    - forEach / find / findIndex
+    - filter / every / some / map
+    - Spread Operator [...list1] (list1 is array)
+
+## Section 7: Functions
+- Function Declaration vs Expression
+- Hoisting
+- Arguments
+- Rest Operator (...args)
+- Getter / Setter
 
 ## Commands
 To creat HTML boilerpalte code, create index.hmtl and type '!' and enter

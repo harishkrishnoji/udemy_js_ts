@@ -12,8 +12,12 @@ function move(array, index, offset) {
     return; 
   }
   
+  // clone of original array using spread operator
   const output = [...array];
+  // get the element out of the array using slice method
+  // store the value of the removed element into const
   const element = output.splice(index, 1)[0];
+  // add it back to the array, specific position
   output.splice(position, 0, element);
   return output;
 }

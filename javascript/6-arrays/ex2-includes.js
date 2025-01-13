@@ -1,4 +1,7 @@
 
+// includes
+// function includes takes array
+
 const numbers = [1, 2, 3, 4]; 
 
 console.log(includes(numbers, -1));

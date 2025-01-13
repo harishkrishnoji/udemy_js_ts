@@ -1,3 +1,4 @@
+// function arrayFromRange two parameters min and max
 
 const numbers = arrayFromRange(1, -4);
 
