@@ -179,3 +179,12 @@ let combineValues: (a: number, b: number) => number;
 ```js
 // basics-12-function-types/app.ts
 ```
+- Official TypeScript Docs: https://www.typescriptlang.org/docs/handbook/2/everyday-types.html
+
+## The TypeScript Compiler (and its Configuration)
+
+### Using "Watch Mode"
+- Instead of running "tsc" (TypeScript Compiler) command, we can run watch mode
+- npx tsc app.ts -watch
+- from project folder: npx tsc --init
+    - it will create tsconfig.json file
