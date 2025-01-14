@@ -1,0 +1,5 @@
+# Exclude large node_modules - run 'npm install'
+udemy_typescript/pratice_code/node_modules/
+
+# Exclude typescript node_modules - run 'npm install typescript --save-dev'
+udemy_typescript/node_modules/
