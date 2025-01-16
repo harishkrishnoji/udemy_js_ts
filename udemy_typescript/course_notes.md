@@ -184,7 +184,48 @@ let combineValues: (a: number, b: number) => number;
 ## The TypeScript Compiler (and its Configuration)
 
 ### Using "Watch Mode"
-- Instead of running "tsc" (TypeScript Compiler) command, we can run watch mode
-- npx tsc app.ts -watch
-- from project folder: npx tsc --init
-    - it will create tsconfig.json file
+- Instead of running "tsc" (TypeScript Compiler) command, we can run watch mode on specific TS file `npx tsc app.ts -watch`
+- To do it on entire project folder:
+    - run `npx tsc --init`
+    - It will create tsconfig.json file, which tells TS how to compile.
+    - run `npx tsc` or `npx tsc -w`
+```js
+// config-01-watch-mode-tsconfig/app.ts
+```
+
+### Including & Excluding Files
+- We can add files to include or exclude
+- By default 'node_modules' is excluded by TS
+- If we are using include, you have to explicitly specific all .ts files
+```js
+"exclude": ["node_modules"]
+"include": ["app.ts"]
+```
+- TSConfig Official Document
+    - https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+    - https://www.typescriptlang.org/docs/handbook/compiler-options.html
+
+### Working with Source Maps
+- It is helpful during debug process
+    ```js
+    // tsconfig.json
+    "sourceMap": true,
+    ```
+- by default browser only have .js file, with Source Map enable, we can also have .ts file on browser which give few option for troubleshooting.
+
+### rootDir and outDir
+- dist: holds all the output of the project, all .js files
+- src: holds all .ts files
+- src folder structure will be replicated to dist folder
+```js
+// tsconfig.json
+"outDir": "./dist",
+"rootDir": "./src",
+```
+
+### Stop Emitting Files on Compilation Errors
+- If any of the .ts file generate error, do not create .js file
+```js
+// tsconfig.json
+"noEmitOnError": true,
+```
