@@ -58,6 +58,7 @@ npx tsc using-ts.ts
     - Material Icon Theme
     - Path Intellisense
     - Prettier - Code formatter
+    - Debugger for Chrome
 
 ### The Course Project Setup
 - Prerequisites
@@ -229,3 +230,55 @@ let combineValues: (a: number, b: number) => number;
 // tsconfig.json
 "noEmitOnError": true,
 ```
+
+### Strict Compilation
+- noImplicitAny: It ensures that we have declared type for parameters, not required for variables
+    - By default variables type is set to 'Any' by JS.
+- strictNullChecks: It ensures we dont get run time error with null value.
+    - values from function which could potential hold null value.
+```js
+// tsconfig.json
+"noImplicitAny": false,
+"strictNullChecks": true,
+"strictFunctionTypes": true,
+"strictBindCallApply": true,
+"strictPropertyInitialization": true,
+```
+
+### Code Quality Options
+- TS warms about unused local variables.
+- TS warns about unused parameters.
+- TS warns about function which does not have return based on condition.
+    - sometimes returns and sometimes not
+
+```js
+// tsconfig.json
+
+/* Additional Checks */
+"noUnusedLocals": true,                /* Report errors on unused locals. */
+"noUnusedParameters": true,            /* Report errors on unused parameters. */
+"noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
+// "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+
+```
+
+### Debugging with Visual Studio Code
+
+VSCode extention
+- JavaScript Debugger
+
+*** Debugger extention did not work ***
+
+Need to revisit and refer to these below links:
+- tsconfig Docs: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html
+- Compiler Config Docs: https://www.typescriptlang.org/docs/handbook/compiler-options.html
+- VS Code TS Debugging: https://code.visualstudio.com/docs/typescript/typescript-debugging
+
+
+**Note**:
+- for each folder we need to run - `npm start`, which will start lite-server
+- for each folder we also need to run - `npx tsc -w`
+
+
+## Section4: Next-generation JavaScript & TypeScript
+
