@@ -1,3 +1,10 @@
+
+**Note**:
+- `npm install` to install all dependecies. 'node_modules' folder will be created.
+- for each folder we need to run - `npm start`, which will start lite-server
+- for each folder we also need to run - `npx tsc -w`, to track the changes made in TS file and generate JS files.
+- if required run `npm install typescript`
+
 ## Section 1: Getting Started
 ### About TypeScript
 - TypeScript is Javascript Superset
@@ -182,7 +189,7 @@ let combineValues: (a: number, b: number) => number;
 ```
 - Official TypeScript Docs: https://www.typescriptlang.org/docs/handbook/2/everyday-types.html
 
-## The TypeScript Compiler (and its Configuration)
+## Section 3: The TypeScript Compiler (and its Configuration)
 
 ### Using "Watch Mode"
 - Instead of running "tsc" (TypeScript Compiler) command, we can run watch mode on specific TS file `npx tsc app.ts -watch`
@@ -282,3 +289,30 @@ Need to revisit and refer to these below links:
 
 ## Section4: Next-generation JavaScript & TypeScript
 
+### "let" and "const"
+List all modern JS features, which browser and compiler support these features
+https://compat-table.github.io/compat-table/es6/
+
+- Next gen- ES6 or more recent JS
+- let, const, var:
+    - let and const, can be used accessed from block {}
+    - var can be access from any where, not good practice
+
+### Arrow Functions
+
+### Default Function Parameters
+
+### The Spread Operator (...)
+- when we copy list of object to new variable, it pointers are copied not really value
+- we need to use spread operator to duplicate the value into new variables
+
+```js
+const hobbies = ['Sports', 'Cooking']
+const activeHobbies = ['Hiking']
+
+activeHobbies.push(...hobbies)
+```
+
+### Rest Parameters
+- spread operator is used to pass list of parameters
+- list python args, to accept list as parameters we use rest parameters
