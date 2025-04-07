@@ -7,3 +7,6 @@ udemy_typescript/node_modules/
 # Exclude node_modules
 udemy_react_django_app/frontend/node_modules/
 udemy_react_crash_course/node_modules/
+
+# Exclude .env
+*/.env
