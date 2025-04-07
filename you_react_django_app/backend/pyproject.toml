@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["Harish Krishnoji - 10105547 <harish.krishnoji@fiserv.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+asgiref = "^3.8.1"
+django = "^5.2"
+django-cors-headers = "^4.7.0"
+djangorestframework = "^3.16.0"
+djangorestframework-simplejwt = "^5.4.0"
+pyjwt = "^2.10.1"
+pytz = "^2025.2"
+sqlparse = "^0.5.3"
+psycopg2-binary = "^2.9.10"
+python-dotenv = "^1.1.0"
+python-ldap = "^3.4.4"
+django-auth-ldap = "^5.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "nexus_ci"
+url = "https://nexus-ci.onefiserv.net/repository/pypi-group/simple"
+priority = "primary"

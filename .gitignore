@@ -3,3 +3,7 @@ udemy_typescript/pratice_code/node_modules/
 
 # Exclude typescript node_modules - run 'npm install typescript --save-dev'
 udemy_typescript/node_modules/
+
+# Exclude node_modules
+udemy_react_django_app/frontend/node_modules/
+udemy_react_crash_course/node_modules/
