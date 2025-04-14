@@ -17,14 +17,17 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from api.views import LDAPLoginView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from api.views import LDAPLoginView, UserInfoFromTokenAPIView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/login/", LDAPLoginView.as_view(), name="login"),
     path("api/token/", TokenObtainPairView.as_view(), name="get_token"),
+    path("api/token/userinfo/", UserInfoFromTokenAPIView.as_view(), name="get_userinfo"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="refresh"),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path("api-auth/", include("rest_framework.urls")),
     path("api/", include("api.urls")),
 ]

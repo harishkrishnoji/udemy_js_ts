@@ -1,0 +1,11 @@
+.logo {
+  width: 100px;
+  align-items: center;
+  color: #ffffff;
+  margin-left: 10px;
+  padding: 0px;
+}
+/* Scrollbar collor in dark mode */
+.dark {
+  color-scheme: dark;
+}

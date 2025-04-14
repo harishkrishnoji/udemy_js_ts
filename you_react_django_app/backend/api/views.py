@@ -4,6 +4,12 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import AccessToken
+from django.contrib.auth import get_user_model
+
+
 from api.serializers import UserSerializer, NoteSerializer
 from api.models import Note
 
@@ -51,3 +57,32 @@ class LDAPLoginView(generics.CreateAPIView):
             return Response({'message': 'Login successful.'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class UserInfoFromTokenAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        print(request.data)
+        token = request.data.get('token')
+
+        if not token:
+             return Response({"error": "Token is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            access_token = AccessToken(token)
+            user_id = access_token['user_id']
+            User = get_user_model()
+            user = User.objects.get(id=user_id)
+
+            user_data = {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                # Add other user fields as needed
+            }
+            return Response(user_data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": "Invalid or expired token"}, status=status.HTTP_400_BAD_REQUEST)
