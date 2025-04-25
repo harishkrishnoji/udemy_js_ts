@@ -18,7 +18,7 @@ const iconComponents = {
   ArrowPathRoundedSquareIcon,
 };
 
-export const Icon = ({name, className="h-5 w-5"}) => {
+export const Icon = ({name, className="h-4 w-4"}) => {
   console.log("Icon", name);
   const IconComponent = iconComponents[name];
 

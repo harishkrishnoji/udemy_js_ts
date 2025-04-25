@@ -13,9 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
-import os
-import ldap
-from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
+from backend.settings_auth import *
 
 load_dotenv()
 
@@ -60,6 +58,8 @@ INSTALLED_APPS = [
     "api",
     "rest_framework",
     "corsheaders",
+    "drf_spectacular",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -160,49 +160,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True
 
-#################################################################################
-# LDAP Authentication
-#################################################################################
-
-AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",
-    "django_auth_ldap.backend.LDAPBackend",
-)
-
-ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
-
-# Baseline configuration.
-AUTH_LDAP_SERVER_URI = os.environ.get("LDAP_SERVER")
-AUTH_LDAP_START_TLS = False
-AUTH_LDAP_BIND_DN = os.environ.get("LDAP_BIND")
-AUTH_LDAP_BIND_PASSWORD = os.environ.get("LDAP_PASSWORD")
-
-AUTH_LDAP_USER_SEARCH = LDAPSearch(
-    "dc=corp,dc=checkfree,dc=com", ldap.SCOPE_SUBTREE, "(|(userPrincipalName=%(user)s)(sAMAccountName=%(user)s))"
-)
-
-AUTH_LDAP_CONNECTION_OPTIONS = {
-    ldap.OPT_DEBUG_LEVEL: 0,
-    ldap.OPT_REFERRALS: 0,
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ]
 }
 
-# Populate the Django user from the LDAP directory.
-AUTH_LDAP_USER_ATTR_MAP = {
-    "first_name": "givenName",
-    "last_name": "sn",
-    "email": "mail",
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
-
-
-# Set up the basic group parameters.
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch("dc=corp,dc=checkfree,dc=com", ldap.SCOPE_SUBTREE, "(objectClass=groupOfNames)")
-AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
-AUTH_LDAP_MIRROR_GROUPS = True  # Mirror groups in Django
-
-
-# This is the default, but I like to be explicit.
-AUTH_LDAP_ALWAYS_UPDATE_USER = True
-
-# Cache distinguished names and group memberships for an hour to minimize
-# LDAP traffic.
-AUTH_LDAP_CACHE_TIMEOUT = 3600

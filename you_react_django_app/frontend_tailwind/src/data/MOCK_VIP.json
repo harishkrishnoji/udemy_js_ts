@@ -1,0 +1,78 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    },
+    {
+      "id": 2,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    },
+    {
+      "id": 3,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    },
+    {
+      "id": 4,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    },
+    {
+      "id": 5,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    },
+    {
+      "id": 6,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    },
+    {
+      "id": 7,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    },
+    {
+      "id": 8,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    },
+    {
+      "id": 9,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    },
+    {
+      "id": 10,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "status": "active",
+      "created_at": "2023-01-01"
+    }
+  ],
+  "current_page": 1,
+  "last_page": 5,
+  "per_page": 10,
+  "total": 50
+}
