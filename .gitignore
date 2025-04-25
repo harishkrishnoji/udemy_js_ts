@@ -11,3 +11,4 @@ udemy_react_crash_course/node_modules/
 # Exclude .env
 you_react_django_app/backend/.env
 **/.env
+**/.pyc
