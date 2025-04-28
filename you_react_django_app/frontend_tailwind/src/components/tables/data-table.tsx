@@ -1,5 +1,6 @@
 "use client"
-import * as React from "react"
+import * as React from "react";
+import { debounce } from 'lodash';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -53,73 +54,138 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { exportToCSV } from "@/lib/utils"
 import { DataTablePagination } from "@/components/tables/data-table-pagination"
+import { useQuery } from '@tanstack/react-query';
+import { fetchData } from '@/api/api';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-}
+// interface DataTableProps<TData, TValue> {
+//   columns: ColumnDef<TData, TValue>[]
+//   data: TData[]
+// }
+
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+  endpoint,
+}: {
+  columns: ColumnDef<TData, TValue>[];
+  endpoint: string;
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [globalFilter, setGlobalFilter] = React.useState<any>([])
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 1,
+    pageSize: 20,
+  });
+
+  // Debounce filter changes
+  const debouncedFilter = React.useMemo(
+    () => debounce((filters: ColumnFiltersState) => {
+      setColumnFilters(filters);
+    }, 500),
+    []
+  );
+
+  // Build query params for server
+  const buildParams = () => {
+    const params: any = {
+      offset: pagination.pageIndex - 1,
+      limit: pagination.pageSize,
+    };
+
+    // Global search
+    if (globalFilter) {
+      params.search = globalFilter;
+    }
+
+    // Column filters
+    columnFilters.forEach(filter => {
+      params[filter.id] = filter.value;
+    });
+
+    // Sorting
+    if (sorting.length > 0) {
+      params.ordering = sorting.map(sort => 
+        sort.desc ? `-${sort.id}` : sort.id
+      ).join(',');
+    }
+
+    return params;
+  };
+
+  const { data: apiResponse, isLoading, error } = useQuery({
+    queryKey: [endpoint, columnFilters, globalFilter, sorting, pagination],
+    queryFn: () => fetchData(endpoint, buildParams()),
+    // placeholderData: keepPreviousData
+  });
+  // console.log(`Table Data: ${JSON.stringify(apiResponse)}`)
+
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
-  const [globalFilter, setGlobalFilter] = React.useState<any>([])
 
   const table = useReactTable({
-    data,
+    data: apiResponse?.results || [],
     columns,
+    pageCount: Math.ceil(apiResponse?.count / pagination.pageSize),
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    onColumnFiltersChange: debouncedFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
     state: {
+      pagination,
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
       globalFilter,
     },
-    initialState: {
-      pagination: {
-          pageSize: 20,
-      },
-    },
+    // manualPagination: true,
+    manualFiltering: true,
+    manualSorting: true,
+    // initialState: {
+    //   pagination: {
+    //       pageSize: 20,
+    //   },
+    // },
   })
 
   const handleExport = () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows
     const dataToExport = selectedRows.length > 0 
       ? selectedRows.map(row => row.original)
-      : data
+      : apiResponse
     
     exportToCSV(dataToExport, "exported_data")
   }
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data</div>;
+
+  console.log(`Table Row data: ${table.getRowModel().rows}`)
+  console.log(table.getRowModel().rows?.length)
   return (
     <div className="w-full">
       <div className="flex items-center py-2">
         {/* Global Filter */}
-        {/* <Input
+        <Input
           value=""
           onChange={e => table.setGlobalFilter(String(e.target.value))}
           placeholder="Search..."
           className="max-w-sm"
-        /> */}
+        />
         <Input
-          placeholder="Filter email columns..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter DeviceName columns..."
+          value={(table.getColumn("DeviceName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("DeviceName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm ml-2"
         />
         
         {/* Column Visibility Dropdown */}

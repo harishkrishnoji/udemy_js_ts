@@ -46,6 +46,7 @@ import Profile from './pages/Profile'
 import NAT from './pages/NAT'
 import LBVIP from './pages/LBVIP'
 import ACLFwdNet from './pages/ACLFwdNet'
+import ACLPanOS from './pages/ACLPanOS'
 import UserForm from './pages/UserInput'
 import NotFound from './pages/NotFound'
 
@@ -66,11 +67,12 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/vip" element={<LBVIP />} />
               <Route path="/fwdnet_acl" element={<ACLFwdNet />} />
+              <Route path="/panos_acl" element={<ACLPanOS />} />
               <Route path="/requsetform" element={<UserForm />} />
               <Route path="/nat" element={<NAT />} />
               
             </Route>
-            <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </ThemeProvider>

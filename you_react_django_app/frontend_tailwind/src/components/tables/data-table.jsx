@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { debounce } from 'lodash';
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
@@ -8,53 +9,101 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { exportToCSV } from "@/lib/utils";
 import { DataTablePagination } from "@/components/tables/data-table-pagination";
-export function DataTable({ columns, data, }) {
+import { useQuery } from '@tanstack/react-query';
+import { fetchData } from '@/api/api';
+// interface DataTableProps<TData, TValue> {
+//   columns: ColumnDef<TData, TValue>[]
+//   data: TData[]
+// }
+export function DataTable({ columns, endpoint, }) {
     const [sorting, setSorting] = React.useState([]);
     const [columnFilters, setColumnFilters] = React.useState([]);
+    const [globalFilter, setGlobalFilter] = React.useState([]);
+    const [pagination, setPagination] = React.useState({
+        pageIndex: 1,
+        pageSize: 20,
+    });
+    // Debounce filter changes
+    const debouncedFilter = React.useMemo(() => debounce((filters) => {
+        setColumnFilters(filters);
+    }, 500), []);
+    // Build query params for server
+    const buildParams = () => {
+        const params = {
+            offset: pagination.pageIndex - 1,
+            limit: pagination.pageSize,
+        };
+        // Global search
+        if (globalFilter) {
+            params.search = globalFilter;
+        }
+        // Column filters
+        columnFilters.forEach(filter => {
+            params[filter.id] = filter.value;
+        });
+        // Sorting
+        if (sorting.length > 0) {
+            params.ordering = sorting.map(sort => sort.desc ? `-${sort.id}` : sort.id).join(',');
+        }
+        return params;
+    };
+    const { data: apiResponse, isLoading, error } = useQuery({
+        queryKey: [endpoint, columnFilters, globalFilter, sorting, pagination],
+        queryFn: () => fetchData(endpoint, buildParams()),
+        // placeholderData: keepPreviousData
+    });
+    // console.log(`Table Data: ${JSON.stringify(apiResponse)}`)
     const [columnVisibility, setColumnVisibility] = React.useState({});
     const [rowSelection, setRowSelection] = React.useState({});
-    const [globalFilter, setGlobalFilter] = React.useState([]);
     const table = useReactTable({
-        data,
+        data: apiResponse?.results || [],
         columns,
+        pageCount: Math.ceil(apiResponse?.count / pagination.pageSize),
         onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
+        onColumnFiltersChange: debouncedFilter,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
+        onGlobalFilterChange: setGlobalFilter,
+        onPaginationChange: setPagination,
         state: {
+            pagination,
             sorting,
             columnFilters,
             columnVisibility,
             rowSelection,
             globalFilter,
         },
-        initialState: {
-            pagination: {
-                pageSize: 20,
-            },
-        },
+        // manualPagination: true,
+        manualFiltering: true,
+        manualSorting: true,
+        // initialState: {
+        //   pagination: {
+        //       pageSize: 20,
+        //   },
+        // },
     });
     const handleExport = () => {
         const selectedRows = table.getFilteredSelectedRowModel().rows;
         const dataToExport = selectedRows.length > 0
             ? selectedRows.map(row => row.original)
-            : data;
+            : apiResponse;
         exportToCSV(dataToExport, "exported_data");
     };
+    if (isLoading)
+        return <div>Loading...</div>;
+    if (error)
+        return <div>Error loading data</div>;
+    console.log(`Table Row data: ${table.getRowModel().rows}`);
+    console.log(table.getRowModel().rows?.length);
     return (<div className="w-full">
       <div className="flex items-center py-2">
         {/* Global Filter */}
-        {/* <Input
-          value=""
-          onChange={e => table.setGlobalFilter(String(e.target.value))}
-          placeholder="Search..."
-          className="max-w-sm"
-        /> */}
-        <Input placeholder="Filter email columns..." value={table.getColumn("email")?.getFilterValue() ?? ""} onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)} className="max-w-sm"/>
+        <Input value="" onChange={e => table.setGlobalFilter(String(e.target.value))} placeholder="Search..." className="max-w-sm"/>
+        <Input placeholder="Filter DeviceName columns..." value={table.getColumn("DeviceName")?.getFilterValue() ?? ""} onChange={(event) => table.getColumn("DeviceName")?.setFilterValue(event.target.value)} className="max-w-sm ml-2"/>
         
         {/* Column Visibility Dropdown */}
         <DropdownMenu>

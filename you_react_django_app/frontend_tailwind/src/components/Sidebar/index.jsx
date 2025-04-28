@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import Logo from '../Logo'
+import Logo from './Logo'
 import SidebarItems from './SidebarItems'
 import sidebarL from "../../assets/sidebar-left.png"
 

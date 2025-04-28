@@ -4,6 +4,7 @@ import { keepPreviousData, QueryClient, useQuery, } from '@tanstack/react-query'
 import { useReactTable, getCoreRowModel, flexRender, } from '@tanstack/react-table';
 //
 import { fetchData } from './fetchData';
+// import { fetchVIPData, fetchGetData } from './fwdvip_table/fetchData'
 const queryClient = new QueryClient();
 export default function VIPTable() {
     const rerender = React.useReducer(() => ({}), {})[1];
@@ -62,6 +63,16 @@ export default function VIPTable() {
         pageIndex: 0,
         pageSize: 10,
     });
+    // console.log(fetchVIPData(pagination))
+    // const logdata = () => {
+    //   return fetchGetData('/api/fwdnet/vip/', {
+    //   limit: pagination.pageIndex + 1,
+    //   offset: pagination.pageSize,
+    // })}
+    // console.log('VIPdata_new: '+ fetchGetData('/api/fwdnet/vip/', {
+    //   limit: pagination.pageIndex + 1,
+    //   offset: pagination.pageSize,
+    // }));
     const dataQuery = useQuery({
         queryKey: ['data', pagination],
         queryFn: () => fetchData(pagination),

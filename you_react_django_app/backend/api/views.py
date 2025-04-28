@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework.filters import OrderingFilter
 from django.contrib.auth import get_user_model
 from django.db import connection
 from django_filters import rest_framework as filters
@@ -97,8 +98,9 @@ class VIPAPIView(generics.ListAPIView):
     queryset = VIPModel.objects.all()
     serializer_class = VIPSerializer
     pagination_class = CustomLimitOffsetPagination
-    filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = VIPFilter
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
+    ordering_fields = "__all__"
 
 
 class VIPBulkAPIView(generics.CreateAPIView, generics.DestroyAPIView):
