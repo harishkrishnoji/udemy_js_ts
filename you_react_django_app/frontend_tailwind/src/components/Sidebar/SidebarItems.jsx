@@ -79,7 +79,7 @@ const Sidebar = ({ collapsed }) => {
   return (
     <div
       /*border-r border-gray-200 dark:border-gray-700*/
-      className={`h-[calc(100vh-9rem)] bg-gray-300 dark:bg-gray-950  ${
+      className={`bg-gray-300 dark:bg-gray-950  ${
         collapsed ? "w-12" : "w-64"
       } transition-all duration-300 ease-in-out`}
     >

@@ -19,6 +19,9 @@ psycopg2-binary = "^2.9.10"
 python-dotenv = "^1.1.0"
 python-ldap = "^3.4.4"
 django-auth-ldap = "^5.1.0"
+redis = {extras = ["hiredis"], version = "^6.0.0"}
+django-redis = "^5.4.0"
+drf-spectacular = {extras = ["sidecar"], version = "^0.28.0"}
 
 
 [build-system]
