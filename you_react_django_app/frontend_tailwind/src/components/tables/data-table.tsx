@@ -128,7 +128,7 @@ export function DataTable<TData, TValue>({
     columns,
     pageCount: Math.ceil(apiResponse?.count / pagination.pageSize),
     onSortingChange: setSorting,
-    onColumnFiltersChange: debouncedFilter,
+    // onColumnFiltersChange: debouncedFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -167,7 +167,7 @@ export function DataTable<TData, TValue>({
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
 
-  console.log(`Table Row data: ${table.getRowModel().rows}`)
+  // console.log(`Table Row data: ${table.getRowModel().rows}`)
   console.log(table.getRowModel().rows?.length)
   return (
     <div className="w-full">

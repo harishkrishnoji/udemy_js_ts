@@ -10,7 +10,6 @@ const Header = ({collapsed, setCollapsed}) => {
   const { user, logout } = useContext(AuthContext)
   
   return (
-<<<<<<< HEAD
     <header className="bg-gray-300 dark:bg-gray-950 shadow-sm">
     {/* <header className="bg-gray-300 dark:bg-gray-950 shadow-sm"> */}
       <div className="max-w-8xl mx-auto px-4 py-1 flex">
@@ -21,14 +20,6 @@ const Header = ({collapsed, setCollapsed}) => {
         </div>
         <h1 className="text-sm text-gray-800 dark:text-white p-2">FTS Network Services Automation</h1>
         <div className="flex items-center space-x-2 ml-auto">
-=======
-    // <header className="bg-gray-300 dark:bg-gray-950 shadow-sm">
-    <header className="bg-orange-500 shadow-sm">
-      <div className="max-w-8xl mx-auto px-4 py-1 flex justify-between items-center">
-        <h1 className="text-base font-bold text-white">FTS Network Services Automation</h1>
-        {/* <h1 className="text-base font-bold text-gray-800 dark:text-white">FTS Network Services Automation</h1> */}
-        <div className="flex items-center space-x-2">
->>>>>>> 77d5424bb57c2d3db67ce14f1b2f173e73825236
           <ThemeToggle />
           {user && (
             <button

@@ -1,29 +1,16 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-<<<<<<< HEAD
 import SidebarItems from './SidebarItems'
 import SidebarButton from './SidebarCollapseButton'
-=======
-import Logo from './Logo'
-import SidebarItems from './SidebarItems'
-import sidebarL from "../../assets/sidebar-left.png"
->>>>>>> 77d5424bb57c2d3db67ce14f1b2f173e73825236
 
 const Sidebar = ({collapsed}) => {
   // const [collapsed, setCollapsed] = useState(false)
   
   return (
     <div
-<<<<<<< HEAD
       className={`h-[calc(100vh-50px)] bg-gray-300 text-gray-950 dark:bg-gray-950 dark:text-white flex flex-col border-r border-gray-200 dark:border-gray-700 ${
         collapsed ? 'w-13' : 'w-64'
       }`}
-=======
-      className={`h-screen bg-zinc-900 text-white shadow-md flex flex-col border-r border-gray-700 ${collapsed ? 'w-12' : 'w-64'}`}
-    //   className={`h-screen bg-gray-300 text-gray-950 dark:bg-gray-950 dark:text-white shadow-md flex flex-col border-r border-gray-200 dark:border-gray-700 ${
-    //     collapsed ? 'w-12' : 'w-64'
-    //   }`}
->>>>>>> 77d5424bb57c2d3db67ce14f1b2f173e73825236
       initial={{ width: 256 }}
       animate={{ width: collapsed ? 80 : 256 }}
       transition={{ duration: 10.3 }}

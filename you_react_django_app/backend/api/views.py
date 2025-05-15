@@ -106,8 +106,8 @@ class UserInfoFromTokenAPIView(APIView):
 
 
 class VIPAPIView(generics.ListAPIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
     queryset = VIPModel.objects.all()
     serializer_class = VIPSerializer
     pagination_class = CustomLimitOffsetPagination

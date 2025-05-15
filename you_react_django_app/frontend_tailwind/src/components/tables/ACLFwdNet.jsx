@@ -216,6 +216,6 @@ export const columns = [
 // VIPTable
 // export function PaymentTable() {
 export default function ACLFwdNetTable() {
-    //   return <DataTable columns={columns} data={data} />
+    // return <DataTable columns={columns} data={data} />
     return <DataTable columns={columns} endpoint="fwdnet/vip/"/>;
 }
