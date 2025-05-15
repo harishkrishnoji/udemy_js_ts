@@ -1,4 +1,5 @@
 .logo {
+<<<<<<< HEAD
   margin-left: 2px;
   padding: 1px;
   height: 32px;
@@ -6,6 +7,13 @@
   width: 60px;
 
 
+=======
+  width: 60px;
+  align-items: center;
+  color: #ffffff;
+  margin-left: 10px;
+  padding: 0px;
+>>>>>>> 77d5424bb57c2d3db67ce14f1b2f173e73825236
 }
 /* Scrollbar collor in dark mode */
 .dark {
