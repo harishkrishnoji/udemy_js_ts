@@ -1,0 +1,144 @@
+.sidebar-container {
+    position: relative;
+    height: 100vh;
+    transition: all 0.3s ease;
+  }
+  
+  .sidebar {
+    background: #4d5053;
+    color: white;
+    height: 100%;
+    width: 250px;
+    transition: all 0.3s ease;
+  }
+  
+  .sidebar.collapsed {
+    width: 60px;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .toggle-btn {
+    background: none;
+    border: none;
+    /* border-bottom: 1px solid rgba(255, 255, 255, 0.1); */
+    /* color: white; */
+    cursor: pointer;
+    padding: 5px;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .toggle-btn:hover {
+    /* background: #3e4043; */
+    background: #333536;
+  }
+  
+  .menu-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu-item {
+    position: relative;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .menu-item:hover {
+    /* background: #3e4043; */
+    background: #333536;
+  }
+  
+  .menu-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .menu-title a {
+    color: white;
+    text-decoration: none;
+    flex-grow: 1;
+  }
+  
+  .icon {
+    font-size: 18px;
+  }
+  
+  .arrow {
+    margin-left: auto;
+    cursor: pointer;
+  }
+  
+  /* Second level submenu */
+  .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #4d5053;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+  
+  /* When sidebar is collapsed */
+  .submenu {
+    left: 60px;
+  }
+  
+  /* Second level submenu positioning */
+  .second-submenu {
+    left: 100%;
+    top: 0;
+  }
+  
+  /* Third level submenu positioning */
+  .third-submenu {
+    left: 100%;
+    top: 0;
+  }
+  
+  .menu-item:hover .second-submenu,
+  .submenu-item:hover .third-submenu {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .submenu-item {
+    position: relative;
+    padding: 10px 15px;
+  }
+  
+  .submenu-item:hover {
+    background: #333536;
+  }
+  
+  .submenu-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .submenu-title a {
+    color: white;
+    text-decoration: none;
+    flex-grow: 1;
+  }
+  
+  .submenu-title .arrow {
+    padding: 0 5px;
+  }
