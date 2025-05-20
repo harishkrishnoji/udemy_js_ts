@@ -39,6 +39,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -57,8 +58,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "api",
     "rest_framework",
-    "corsheaders",
+    "drf_spectacular_sidecar",
     "drf_spectacular",
+    "corsheaders",
     "django_filters",
 ]
 
@@ -175,5 +177,42 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'Your project description',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
+
+
+# Set up the basic group parameters.
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch("dc=corp,dc=checkfree,dc=com", ldap.SCOPE_SUBTREE, "(objectClass=groupOfNames)")
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
+AUTH_LDAP_MIRROR_GROUPS = True  # Mirror groups in Django
+
+
+# This is the default, but I like to be explicit.
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
+
+# Cache distinguished names and group memberships for an hour to minimize
+# LDAP traffic.
+AUTH_LDAP_CACHE_TIMEOUT = 3600
+
+
+CACHES = {
+    "default": {
+        # "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'NetSvcs Automation Portal API',
+    'DESCRIPTION': 'NetSvcs Automation Portal API',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
     # OTHER SETTINGS
 }

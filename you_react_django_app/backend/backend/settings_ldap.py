@@ -1,6 +1,6 @@
 import os
 import ldap
-from neteng_portal.settings_auth import AUTHENTICATION_BACKENDS
+# from backend.settings_auth import AUTHENTICATION_BACKENDS
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 
 #################################################################################

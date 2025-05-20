@@ -12,6 +12,10 @@ from django.contrib.auth import get_user_model
 from django.db import connection
 from django_filters import rest_framework as filters
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie, vary_on_headers
+
 from api.serializers import UserSerializer, NoteSerializer, VIPSerializer, VIPListSerializer
 from api.models import Note, VIPModel
 from api.pagination import StandardResultsSetPagination, CustomLimitOffsetPagination
@@ -23,8 +27,17 @@ class NoteListCreate(generics.ListCreateAPIView):
     serializer_class = NoteSerializer
     permission_classes = [IsAuthenticated]
 
+    # With cookie: cache requested url for each user for 2 hours
+    @method_decorator(cache_page(60 * 60 * 2, key_prefix='note_list'))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        # Cache the response for 2 hours
+        return super().list(request, *args, **kwargs)
+
     def get_queryset(self):
         user = self.request.user
+        import time
+        time.sleep(5)  # Simulate a long-running query
         return Note.objects.filter(author=user)
 
     def perform_create(self, serializer):
@@ -93,8 +106,8 @@ class UserInfoFromTokenAPIView(APIView):
 
 
 class VIPAPIView(generics.ListAPIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
     queryset = VIPModel.objects.all()
     serializer_class = VIPSerializer
     pagination_class = CustomLimitOffsetPagination

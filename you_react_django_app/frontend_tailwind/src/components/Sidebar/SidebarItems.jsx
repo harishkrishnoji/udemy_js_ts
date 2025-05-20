@@ -82,11 +82,13 @@ const Sidebar = ({ collapsed }) => {
   return (
     <div
       /*border-r border-gray-200 dark:border-gray-700*/
+      className={`bg-gray-300 dark:bg-gray-950  ${
+        collapsed ? "w-12" : "w-64"
       // className={`h-[calc(100vh-9rem)] bg-gray-300 dark:bg-gray-950  ${
       //   collapsed ? "w-12" : "w-64"
       // } transition-all duration-300 ease-in-out`}
-      className={`h-[calc(100vh-9rem)] bg-zinc-900  ${
-        collapsed ? "w-10" : "w-64"
+      // className={`h-[calc(100vh-9rem)] bg-zinc-900  ${
+      //   collapsed ? "w-10" : "w-64"
       } transition-all duration-300 ease-in-out`}
     >
       <nav className="p-1">

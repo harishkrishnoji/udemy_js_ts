@@ -16,10 +16,10 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from api.views import LDAPLoginView, UserInfoFromTokenAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 
 urlpatterns = [
@@ -33,4 +33,8 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path("api-auth/", include("rest_framework.urls")),
     path("api/", include("api.urls")),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # re_path(r'^$', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'), # Redirect root URL to Swagger
+    path('api/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    # path('/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 ]
