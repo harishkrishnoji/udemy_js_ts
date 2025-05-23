@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     });
   }
 
-  const refreshAccessToken = async (REFRESH_TOKEN) => {
+  const refreshAccessToken = async () => {
     api.post("/api/token/refresh/", {"refresh": authState.refreshToken })
     .then(response => {
       // localStorage.setItem(ACCESS_TOKEN, response.data.access);
