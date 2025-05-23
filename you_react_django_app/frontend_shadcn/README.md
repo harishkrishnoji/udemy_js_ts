@@ -70,7 +70,7 @@ npm install tailwindcss @tailwindcss/vite
 npm install -D @types/node
 # Add shadcn
 npx shadcn@latest init
-npx shadcn@latest add button tooltip separator scroll-area collapsible
+npx shadcn@latest add button tooltip separator scroll-area collapsible sidebar
 npm install lucide-react @radix-ui/react-collapsible
 
 npm install --save-dev @rollup/plugin-typescript

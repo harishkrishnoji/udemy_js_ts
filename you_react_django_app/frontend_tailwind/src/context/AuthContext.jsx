@@ -9,6 +9,12 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "../data/TokenConstants";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [authState, setAuthState] = useState({
+    userName: null,
+    accessToken: null,
+    refreshToken: null,
+    isAuthenticated: false,
+  });
   const [user, setUser] = useState(localStorage.getItem('user') || null);
   const [userInfo, setUserInfo] = useState(localStorage.getItem('userInfo') || null);
   // const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken') || null);
@@ -36,9 +42,13 @@ export const AuthProvider = ({ children }) => {
   }
 
   const refreshAccessToken = async (REFRESH_TOKEN) => {
-    api.post("/api/token/refresh/", {"refresh": localStorage.getItem(REFRESH_TOKEN) })
+    api.post("/api/token/refresh/", {"refresh": authState.refreshToken })
     .then(response => {
-      localStorage.setItem(ACCESS_TOKEN, response.data.access);
+      // localStorage.setItem(ACCESS_TOKEN, response.data.access);
+      setAuthState(prev => ({
+        ...prev,
+        accessToken: response.data.access,
+      }));
       setIsLoggedIn(true);
     })
     .catch(error => {
@@ -71,17 +81,24 @@ export const AuthProvider = ({ children }) => {
           console.error("Login failed:", response);
           return;
         }
-        localStorage.setItem(ACCESS_TOKEN, response.data.access);
-        localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
-        console.log('local storage access token: '+localStorage.getItem(ACCESS_TOKEN));
-        api.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`;
+        setAuthState({
+          userName: username,
+          accessToken: response.data.access,
+          refreshToken: response.data.refresh,
+          isAuthenticated: true,
+        });
+        // localStorage.setItem(ACCESS_TOKEN, response.data.access);
+        // localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
+        // console.log('local storage access token: '+localStorage.getItem(ACCESS_TOKEN));
+        // api.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`;
+        api.defaults.headers.common['Authorization'] = `Bearer ${authState.accessToken}`;
         // setAccessToken(response.data.access);
         // setRefreshToken(response.data.refresh);
         setUser(username);
         setIsLoggedIn(true);
-        localStorage.setItem('user', username);
-        localStorage.setItem('isLoggedIn', true);
-        getUserInfo(ACCESS_TOKEN);
+        // localStorage.setItem('user', username);
+        // localStorage.setItem('isLoggedIn', true);
+        // getUserInfo(ACCESS_TOKEN);
         navigate("/home");
       })
       .catch(error => {
@@ -90,6 +107,11 @@ export const AuthProvider = ({ children }) => {
   }
   
   const logout = () => {
+    setAuthState({
+      accessToken: null,
+      refreshToken: null,
+      isAuthenticated: false,
+    });
     setUser(null)
     localStorage.removeItem('user')
     localStorage.removeItem('userInfo')

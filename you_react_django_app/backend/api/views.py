@@ -35,6 +35,8 @@ class NoteListCreate(generics.ListCreateAPIView):
         return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return Note.objects.none()
         user = self.request.user
         import time
         time.sleep(5)  # Simulate a long-running query
@@ -77,6 +79,7 @@ class LDAPLoginView(generics.CreateAPIView):
 
 
 class UserInfoFromTokenAPIView(APIView):
+    serializer_class = UserSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
